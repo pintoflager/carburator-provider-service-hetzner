@@ -1,7 +1,3 @@
-name = "hetzner"
-
-default = false
-
 [target]
 status = "production"
 
