@@ -1,5 +1,4 @@
-[target]
-status = "production"
+target = "production"
 
 [[secret]]
 name = "hetzner_cloud_apikey"
