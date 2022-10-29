@@ -3,60 +3,64 @@
 # ATTENTION: Scripts run from carburator project's public root directory.
 
 # TODO: following env should be present
-# PROVIDER_name = "hetzner"
-# PROVIDER_default = true
+# PROVIDER_NAME = "hetzner"
+# PROVIDER_DEFAULT = true
 # PROVIDER_SECRET_0 = hetzner_cloud_apikey
-# PROVIDER_target = "production"
-# PROVIDER_PATH = "/home/...."
+# PROVIDER_TARGET = "production"
+# PROVIDER_PATH = "/home/..../providers/service/{name}"
 
-# PROVISIONER_name = "terraform"
-# PROVISIONER_bin = "\"terraform\""
+# PROVISIONER_NAME = "terraform"
+# PROVISIONER_BIN = "\"terraform\""
 # PROVISIONER_default = true
 # PROVISIONER_retry_times = 3
 # PROVISIONER_retry_interval = 10
 # PROVISIONER_boot_wait = 20
 # PROVISIONER_target = "production"
-# PROVISIONER_PATH = "/home/...."
+# PROVISIONER_PROVIDER_PATH = "/home/..../provisioners/{name}/providers{service_provider}"
+# PROVISIONER_HOME = "/home/..../provisioners/{name}"
 
 # TODO: peek if so... 
 env
 
+# REMEMBER: provider could be hard coded to 'hetzner' here, but carburator returns
+# the name so might as well use it.
 
-# Execute provisioner logic of the selected program.
-provisioner_sh=$(get-resource-provisioner)
+# REMEMBER: If service provider only supports one provisioner, it should be used
+# instead of "$PROVISIONER_NAME" variable.
 
+###
+# Run the provisioner and hope it succeeds. Provisioner function has
+# retries baked in (if enabled in provisioner.toml).
+#
+carburator provisioner request \
+    create \
+    project \
+    --provider "$PROVIDER_NAME" \
+    --provisioner "$PROVISIONER_NAME" || exit 1
 
-# TODO: simple way would be to just use $PROVISIONER_PATH to call the matching
-# script... but this would be fixed to shell or lots of script searching logic
-# would be duplicated all over the place.............
+# Following checks apply only hetzner output.
+if [[ $PROVIDER_NAME != 'hetzner' ]]; then
+    carburator fn paint red "What the hell did you do to find this error?"
+    exit 1
+fi
 
-"$PROVISIONER_PATH/providers/$PROVIDER_NAME/project/create.sh"
+###
+# Extract required values from provisioner output and save it to service provider.
+#
+if [[ $PROVISIONER_NAME == 'terraform' ]]; then
+    # We know how terraform spits out it's response (json) and we even know the
+    # format of data. Lets extract what's needed (ssh key name and ID)
+    # Save project ssh key name / id to environment.
+    output="$PROVISIONER_PROVIDER_PATH/project.json"
 
-# TODO: better way might be:
-carburator provisioner request ${action//"create/destroy/update..."} \
-    ${resource//"project/vip/volume..."} \
-    --provider $PROVIDER_NAME \
-    --provisioner "$PROVISIONER_NAME/..or fixed name/empty for default" \
+    # TODO: put env is fixed to app or fullpath. allow fast env path to providers.
+    ssh_name=$(jq -rc '.ssh_key.value.name' "$output")
+    put-env PROJECT_SSH_KEY_NAME "$ssh_name" "$PWD/.env"
 
-# that function would search for the script and populate environment variables.
-# retrying could also be baked in, as carburator has access to provisioner.toml
-# and it's retry configs.
+    ssh_id=$(jq -rc '.ssh_key.value.id' "$output")
+    put-env PROJECT_SSH_KEY_ID "$ssh_id" "$PWD/.env"
+fi
 
-# based on provisioner exit code we should save what we need later to service
-# provider/.env
-# provisioner has to save it's output in some understandable format as well.
-# then the logic here goes:
-
-# if [[ $PROVISIONER_NAME == "hetzner" ]]; then
-    # now we know what it has saved and where.
-    # key=$(carburator fn get env PROJECT_SSH_KEY_NAME --path $PROVISIONER_HOME/.env)
-    # carburator fn put env SSH_NAME "$key" --path $PROVIDER_HOME/.env ......
-
-# else if [[ ... ]]
-
-
-# THATS ALL PROVIDER SHOULD DO!! BE THE MIDDLEMAN BETWEEN THE PROVISIONERS
-# AND THE PROJECT
 
 
 
@@ -66,10 +70,5 @@ provider-response-valid "$project_json" || register-project "$@"
 
 
 # TODO: this stuff should never leave from provider
-# Save project ssh key name / id to environment.
-ssh_name=$(jq -rc '.ssh_key.value.name' "$project_json")
-put-env PROJECT_SSH_KEY_NAME "$ssh_name" "$PWD/.env"
 
-ssh_id=$(jq -rc '.ssh_key.value.id' "$project_json")
-put-env PROJECT_SSH_KEY_ID "$ssh_id" "$PWD/.env"
 

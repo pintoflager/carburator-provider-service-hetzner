@@ -1,5 +1,8 @@
 target = "production"
 
+[requirements]
+local = ["jq"]
+
 [[secret]]
 name = "hetzner_cloud_apikey"
 
@@ -7,4 +10,3 @@ name = "hetzner_cloud_apikey"
 key = "apikey"
 value = "prompt!(secret)" # Idea is to use prompt mods here; secret, password, text...
 prompt = "Hetzner cloud API key for provisioning resources."
-
