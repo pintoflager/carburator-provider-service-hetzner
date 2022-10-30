@@ -1,26 +1,10 @@
 #!/bin/bash
 
-# ATTENTION: Scripts run from carburator project's public root directory.
+# ATTENTION: Scripts run from carburator project's public root directory:
+# echo "$PWD"
 
-# TODO: following env should be present
-# PROVIDER_NAME = "hetzner"
-# PROVIDER_DEFAULT = true
-# PROVIDER_SECRET_0 = hetzner_cloud_apikey
-# PROVIDER_TARGET = "production"
-# PROVIDER_PATH = "/home/..../providers/service/{name}"
-
-# PROVISIONER_NAME = "terraform"
-# PROVISIONER_BIN = "\"terraform\""
-# PROVISIONER_default = true
-# PROVISIONER_retry_times = 3
-# PROVISIONER_retry_interval = 10
-# PROVISIONER_boot_wait = 20
-# PROVISIONER_target = "production"
-# PROVISIONER_PROVIDER_PATH = "/home/..../provisioners/{name}/providers{service_provider}"
-# PROVISIONER_HOME = "/home/..../provisioners/{name}"
-
-# TODO: peek if so... 
-env
+# ATTENTION: to check the environment variables uncomment:
+# env
 
 # REMEMBER: provider could be hard coded to 'hetzner' here, but carburator returns
 # the name so might as well use it.
@@ -53,22 +37,16 @@ if [[ $PROVISIONER_NAME == 'terraform' ]]; then
     # Save project ssh key name / id to environment.
     output="$PROVISIONER_PROVIDER_PATH/project.json"
 
-    # TODO: put env is fixed to app or fullpath. allow fast env path to providers.
-    ssh_name=$(jq -rc '.ssh_key.value.name' "$output")
-    put-env PROJECT_SSH_KEY_NAME "$ssh_name" "$PWD/.env"
+    name=$(jq -rc '.project.value.sshkey_name' "$output")
+    id=$(jq -rc '.project.value.sshkey_id' "$output")
+    
+    # TODO: renamed var: PROJECT_SSH_KEY_NAME => SSH_KEY_NAME
+    carburator put env SSH_KEY_NAME "$name" \
+        --service-provider "$PROVIDER_NAME"
 
-    ssh_id=$(jq -rc '.ssh_key.value.id' "$output")
-    put-env PROJECT_SSH_KEY_ID "$ssh_id" "$PWD/.env"
+    # TODO: renamed var: PROJECT_SSH_KEY_ID => SSH_KEY_ID
+    carburator put env SSH_KEY_ID "$id" \
+        --service-provider "$PROVIDER_NAME"
 fi
 
-
-
-
-"$provisioner_sh" provisioner-register-project "$project" "$pr_id"
-
-provider-response-valid "$project_json" || register-project "$@"
-
-
-# TODO: this stuff should never leave from provider
-
-
+# ... test other provisioners with else if [[  ]]...
