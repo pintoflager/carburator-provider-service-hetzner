@@ -6,6 +6,8 @@
 # ATTENTION: to check the environment variables uncomment:
 # env
 
+carburator fn paint green "Invoking Hetzner service provider..."
+
 # REMEMBER: provider could be hard coded to 'hetzner' here, but carburator returns
 # the name so might as well use it.
 
