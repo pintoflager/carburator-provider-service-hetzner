@@ -30,6 +30,8 @@ if [[ $PROVIDER_NAME != 'hetzner' ]]; then
     exit 1
 fi
 
+carburator fn echo info "Updating Hetzner service provider environment..."
+
 ###
 # Extract required values from provisioner output and save it to service provider.
 #
