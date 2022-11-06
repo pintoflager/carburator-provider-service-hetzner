@@ -54,3 +54,5 @@ if [[ $PROVISIONER_NAME == 'terraform' ]]; then
 fi
 
 # ... test other provisioners with else if [[  ]]...
+
+carburator fn echo success "Hetzner service provider updated."

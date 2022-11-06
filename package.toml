@@ -1,4 +1,4 @@
-target = "production"
+targets = ["worker", "commander", "watchdog"]
 
 [requirements]
 local = ["jq"]
