@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 
 local app="$1" servers="$2" provisioner_sh;

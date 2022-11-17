@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 local app="$1" volumes="$2" provisioner_sh;
 local volinst_dir="$PWD/$app/volume_instances"

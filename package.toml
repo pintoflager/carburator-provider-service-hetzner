@@ -1,5 +1,8 @@
-targets = ["worker", "commander", "watchdog"]
+targets = ["worker", "commander"]
 
+provisioners = ["terraform"]
+
+# TODO: again, local is not used.
 [requirements]
 local = ["jq"]
 

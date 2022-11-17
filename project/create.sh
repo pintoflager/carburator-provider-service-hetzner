@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # ATTENTION: Scripts run from carburator project's public root directory:
 # echo "$PWD"
@@ -22,13 +22,7 @@ carburator provisioner request \
     create \
     project \
     --provider "$PROVIDER_NAME" \
-    --provisioner "$PROVISIONER_NAME" || exit 1
-
-# Following checks apply only hetzner output.
-if [[ $PROVIDER_NAME != 'hetzner' ]]; then
-    carburator fn paint red "What the hell did you do to find this error?"
-    exit 1
-fi
+    --provisioner "$PROVISIONER_NAME" || exit 120
 
 carburator fn echo info "Updating Hetzner service provider environment..."
 
@@ -43,6 +37,8 @@ if [[ $PROVISIONER_NAME == 'terraform' ]]; then
 
     name=$(jq -rc '.project.value.sshkey_name' "$output")
     id=$(jq -rc '.project.value.sshkey_id' "$output")
+
+    # TODO: keeping these in .env ... better to prefer toml?
     
     # TODO: renamed var: PROJECT_SSH_KEY_NAME => SSH_KEY_NAME
     carburator put env SSH_KEY_NAME "$name" \

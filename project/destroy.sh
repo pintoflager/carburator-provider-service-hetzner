@@ -1,12 +1,20 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# TODO: provider starts and prepares the environment for provisioner call and translates the response to
-# format understandable by the carburator project.
+carburator fn paint green "Invoking Hetzner service provider..."
 
-local project="$1"; local pr_id="$2";
-local project_json="$PWD/$pr_id/$project.json"
+###
+# Run the provisioner and hope it succeeds. Provisioner function has
+# retries baked in (if enabled in provisioner.toml).
+#
+carburator provisioner request \
+    destroy \
+    project \
+    --provider "$PROVIDER_NAME" \
+    --provisioner "$PROVISIONER_NAME" || exit 120
 
-# Execute provisioner logic of the selected program.
-local provisioner_sh; provisioner_sh=$(get-resource-provisioner)
-"$provisioner_sh" provisioner-destroy-project "$project" "$pr_id"
+carburator fn echo info "Destroying Hetzner service provider environment..."
 
+# TODO: keeping these in .env ... better to prefer toml?
+rm -f "$PROVIDER_PATH/.env"
+
+carburator fn echo success "Hetzner service provider environment destoryed."
