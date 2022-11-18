@@ -1,10 +1,8 @@
-targets = ["worker", "commander"]
+targets = ["commander"]
 
 provisioners = ["terraform"]
 
-# TODO: again, local is not used.
-[requirements]
-local = ["jq"]
+requirements = ["jq"]
 
 [[secret]]
 name = "hetzner_cloud_apikey" # primary secret key
