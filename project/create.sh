@@ -24,30 +24,19 @@ carburator provisioner request \
     --provider "$PROVIDER_NAME" \
     --provisioner "$PROVISIONER_NAME" || exit 120
 
-carburator fn echo info "Updating Hetzner service provider environment..."
-
-###
-# Extract required values from provisioner output and save it to service provider.
-#
-if [[ $PROVISIONER_NAME == 'terraform' ]]; then
+# Extract values from provisioner output and save it to service provider?
+# if [[ $PROVISIONER_NAME == 'terraform' ]]; then
     # We know how terraform spits out it's response (json) and we even know the
     # format of data. Lets extract what's needed (ssh key name and ID)
     # Save project ssh key name / id to environment.
-    output="$PROVISIONER_PROVIDER_PATH/project.json"
-
-    name=$(jq -rc '.project.value.sshkey_name' "$output")
-    id=$(jq -rc '.project.value.sshkey_id' "$output")
-
-    # TODO: keeping these in .env ... better to prefer toml?
     
-    # TODO: renamed var: PROJECT_SSH_KEY_NAME => SSH_KEY_NAME
-    carburator put env SSH_KEY_NAME "$name" \
-        --service-provider "$PROVIDER_NAME"
+    # output="$PROVISIONER_PROVIDER_PATH/project.json"
 
-    # TODO: renamed var: PROJECT_SSH_KEY_ID => SSH_KEY_ID
-    carburator put env SSH_KEY_ID "$id" \
-        --service-provider "$PROVIDER_NAME"
-fi
+    # id=$(jq -rc '.project.value.sshkey_id' "$output")
+
+    # carburator put env SSH_KEY_ID "$id" \
+    #     --service-provider "$PROVIDER_NAME"
+# fi
 
 # ... test other provisioners with else if [[  ]]...
 
