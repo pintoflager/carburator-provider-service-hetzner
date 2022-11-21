@@ -40,4 +40,4 @@ carburator provisioner request \
 
 # ... test other provisioners with else if [[  ]]...
 
-carburator fn echo success "Hetzner service provider updated."
+carburator fn echo success "Hetzner project created."

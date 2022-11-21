@@ -1,21 +1,15 @@
 #!/usr/bin/env bash
 
-# TODO: also possible to loop project/nodes dir files instead of fucking around
-# with ENV_VARS
+carburator fn paint green "Invoking Hetzner service provider..."
 
-# TODO: produce a list of all nodes in a format that the selected provisioner
-# knows how to read.
+###
+# Run the provisioner and hope it succeeds. Provisioner function has
+# retries baked in (if enabled in provisioner.toml).
+#
+carburator provisioner request \
+    create \
+    node \
+    --provider "$PROVIDER_NAME" \
+    --provisioner "$PROVISIONER_NAME" || exit 120
 
-# TODO: filter and take whats needed from provisioner response and return success
-
-local app="$1" servers_json="$PWD/$1/server.json";
-local servinst_dir="$PWD/$app/server_instances"
-
-if [[ ! -d $servinst_dir || ! $(ls -A "$servinst_dir") ]]; then return; fi
-
-# Execute provisioner logic of the selected program.
-local provisioner_sh; provisioner_sh=$(get-resource-provisioner "$app")
-"$provisioner_sh" provisioner-servers "$app" "$domain"
-
-provider-response-valid "$servers_json" || provision-server "$@"
-
+carburator fn paint green "Hetzner node(s) created."
