@@ -10,4 +10,4 @@ name = "hetzner_cloud_apikey" # primary secret key
 [[secret.line]]
 key = "hetzner_cloud_apikey"
 value = "prompt!(secret)" # Idea is to use prompt mods here; secret, password, text...
-prompt = "Hetzner cloud API key for provisioning resources."
+prompt = "Hetzner cloud API key"

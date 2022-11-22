@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-carburator fn paint green "Invoking Hetzner service provider..."
+carburator fn echo info "Invoking Hetzner service provider..."
 
 ###
 # Run the provisioner and hope it succeeds. Provisioner function has
@@ -12,4 +12,4 @@ carburator provisioner request \
     --provider "$PROVIDER_NAME" \
     --provisioner "$PROVISIONER_NAME" || exit 120
 
-carburator fn paint green "Hetzner node(s) created."
+carburator fn echo success "Hetzner node(s) created."
