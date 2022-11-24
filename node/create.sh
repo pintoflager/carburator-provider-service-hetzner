@@ -10,7 +10,6 @@ carburator provisioner request \
     create \
     node \
     --provider "$PROVIDER_NAME" \
-    --provisioner "$PROVISIONER_NAME" \
-    --preserve_env || exit 120
+    --provisioner "$PROVISIONER_NAME" || exit 120
 
 carburator fn echo success "Hetzner node(s) created."
