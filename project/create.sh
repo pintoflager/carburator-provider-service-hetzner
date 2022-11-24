@@ -24,6 +24,7 @@ carburator provisioner request \
     --provider "$PROVIDER_NAME" \
     --provisioner "$PROVISIONER_NAME" || exit 120
 
+# Example:
 # Extract values from provisioner output and save it to service provider?
 # if [[ $PROVISIONER_NAME == 'terraform' ]]; then
     # We know how terraform spits out it's response (json) and we even know the

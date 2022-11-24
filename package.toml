@@ -2,7 +2,7 @@ targets = ["commander"]
 
 provisioners = ["terraform"]
 
-requirements = ["jq"]
+requirements = []
 
 [[secret]]
 name = "hetzner_cloud_apikey" # primary secret key
