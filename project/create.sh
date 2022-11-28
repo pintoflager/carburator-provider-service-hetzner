@@ -6,7 +6,7 @@
 # ATTENTION: to check the environment variables uncomment:
 # env
 
-carburator fn echo info "Invoking Hetzner service provider..."
+carburator print terminal info "Invoking Hetzner service provider..."
 
 # REMEMBER: provider could be hard coded to 'hetzner' here, but carburator returns
 # the name so might as well use it.
@@ -41,4 +41,4 @@ carburator provisioner request \
 
 # ... test other provisioners with else if [[  ]]...
 
-carburator fn echo success "Hetzner project created."
+carburator print terminal success "Hetzner project created."

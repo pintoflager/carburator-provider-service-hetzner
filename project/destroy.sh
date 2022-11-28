@@ -12,9 +12,9 @@ carburator provisioner request \
     --provider "$PROVIDER_NAME" \
     --provisioner "$PROVISIONER_NAME" || exit 120
 
-carburator fn echo info "Destroying Hetzner service provider environment..."
+carburator print terminal info "Destroying Hetzner service provider environment..."
 
 # TODO: keeping these in .env ... better to prefer toml?
 rm -f "$PROVIDER_PATH/.env"
 
-carburator fn echo success "Hetzner service provider environment destoryed."
+carburator print terminal success "Hetzner service provider environment destoryed."
