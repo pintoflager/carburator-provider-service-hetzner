@@ -17,7 +17,7 @@ fi
 # provisioner.
 #
 provisioner_node="$PROJECT_PATH/provisioners/$provisioner/providers/$PROVIDER_NAME/node"
-provider_node="$provider_node/node"
+provider_node="$PROVIDER_PATH/node"
 
 # We could process the nodes array here to the format the provisioner is expecting
 # but better keep provider layer thin and let the provisioner do what it needs
