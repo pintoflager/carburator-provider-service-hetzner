@@ -58,8 +58,6 @@ carburator print terminal success "Hetzner node(s) created."
 ###
 # Private networking
 #
-
-# Check if our nodes should be connected
 provisioner_net="$PROJECT_PATH/provisioners/$provisioner/providers/$PROVIDER_NAME/network"
 
 # How many nodes are we dealing with
@@ -69,29 +67,30 @@ len=$(carburator get json nodes array --path "$provider_node/.exec.json" | wc -l
 declare -a eu_nodes; declare -a us_nodes;
 
 for (( i=0; i<len; i++ )); do
-    # Only take nodes that have their private net boolean true.
-    if carburator get json "nodes.$i.connectivity.private_net" boolean \
-    --path "$provider_node/.exec.json"
+    # Get boolean returns exit code for false.
+    if ! carburator get json "nodes.$i.connectivity.private_net" boolean \
+        --path "$provider_node/.exec.json" &> /dev/null
     then
-        name=$(carburator get json "nodes.$i.hostname" boolean \
-            --path "$provider_node/.exec.json")
-
-        location=$(carburator get json "nodes.$i.location.name" boolean \
-            --path "$provider_node/.exec.json")
-
-        if [[ $location == "ash" ]]; then us_nodes+=("$name")
-        else eu_nodes+=("$name"); fi
+        continue;
     fi
+
+    name=$(carburator get json "nodes.$i.hostname" string \
+        --path "$provider_node/.exec.json")
+
+    location=$(carburator get json "nodes.$i.location.name" string \
+        --path "$provider_node/.exec.json")
+
+    if [[ $location == "ash" ]]; then us_nodes+=("$name")
+    else eu_nodes+=("$name"); fi
 done
 
 # Network name is the same as the node group name
-net_name=$(carburator get env NODE_GROUP --path "$provider_node/.exec.env")
+net_name=$(carburator get env NODE_GROUP_NAME --path "$provider_node/.exec.env")
 
 # 254 nodes is enough..?
 range="10.10.0.0/24"
 
 # Each net zone should be called individually and only if they hold nodes.
-# At least following should be provided
 if [[ ${#eu_nodes[@]} -gt 0 ]]; then
     carburator put json network "{\
     name: \"$net_name-eu\",\
