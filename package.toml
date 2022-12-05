@@ -1,4 +1,6 @@
+name = "hetzner"
 version = "0.1.0"
+collection = "service"
 targets = ["commander"]
 
 provisioners = ["terraform"]

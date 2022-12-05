@@ -20,3 +20,8 @@ name = "ash"
 description = "Ashburn: US/Miami, Canada/Toronto..."
 default = false
 
+[[location]]
+name = "hil"
+description = "Hillsboro: US/Washington, US/Seatle, Canada/Vancouver..."
+default = false
+

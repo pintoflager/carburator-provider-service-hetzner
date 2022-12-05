@@ -64,7 +64,7 @@ provisioner_net="$PROJECT_PATH/provisioners/$provisioner/providers/$PROVIDER_NAM
 len=$(carburator get json nodes array --path "$provider_node/.exec.json" | wc -l)
 
 # Hetzner has 2 network zones, europe and yankie east
-declare -a eu_nodes; declare -a us_nodes;
+declare -a eu_nodes; declare -a us_east_nodes; declare -a us_west_nodes;
 
 for (( i=0; i<len; i++ )); do
     # Get boolean returns exit code for false.
@@ -80,7 +80,8 @@ for (( i=0; i<len; i++ )); do
     location=$(carburator get json "nodes.$i.location.name" string \
         --path "$provider_node/.exec.json")
 
-    if [[ $location == "ash" ]]; then us_nodes+=("$name")
+    if [[ $location == "ash" ]]; then us_east_nodes+=("$name")
+    elif [[ $location == "hil" ]]; then us_west_nodes+=("$name")
     else eu_nodes+=("$name"); fi
 done
 
@@ -109,20 +110,32 @@ else
     rm -f "$provisioner_net/.eu.nodes.json"
 fi
 
-if [[ ${#us_nodes[@]} -gt 0 ]]; then
+if [[ ${#us_east_nodes[@]} -gt 0 ]]; then
     carburator put json network "{\
     name: \"$net_name-us\",\
     range: \"$range\",\
     zone: us-east,\
-    type: cloud}" --path "$provisioner_net/.us.nodes.json"
+    type: cloud}" --path "$provisioner_net/.us.east.nodes.json"
 
-    IFS=\, eval 'node_csv="${us_nodes[*]}"'
+    IFS=\, eval 'node_csv="${us_east_nodes[*]}"'
     carburator put json nodes "[$node_csv]" \
-        --path "$provisioner_net/.us.nodes.json"
-
-# Make sure files from previous iterations are not present.
+        --path "$provisioner_net/.us.east.nodes.json"
 else
-    rm -f "$provisioner_net/.us.nodes.json"
+    rm -f "$provisioner_net/.us.east.nodes.json"
+fi
+
+if [[ ${#us_west_nodes[@]} -gt 0 ]]; then
+    carburator put json network "{\
+    name: \"$net_name-us\",\
+    range: \"$range\",\
+    zone: us-west,\
+    type: cloud}" --path "$provisioner_net/.us.west.nodes.json"
+
+    IFS=\, eval 'node_csv="${us_west_nodes[*]}"'
+    carburator put json nodes "[$node_csv]" \
+        --path "$provisioner_net/.us.west.nodes.json"
+else
+    rm -f "$provisioner_net/.us.west.nodes.json"
 fi
 
 # Invoke the provisioner
