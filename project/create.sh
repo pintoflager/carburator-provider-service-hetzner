@@ -14,6 +14,13 @@ carburator print terminal info "Invoking Hetzner service provider..."
 # REMEMBER: If service provider only supports one provisioner, it should be used
 # instead of "$PROVISIONER_NAME" variable.
 
+provisioner="$PROVISIONER_NAME"
+
+if [[ -z $provisioner ]]; then
+    provisioner="$PROVIDER_PROVISIONERS_0_NAME"
+fi
+
+
 ###
 # Run the provisioner and hope it succeeds. Provisioner function has
 # retries baked in (if enabled in provisioner.toml).
@@ -22,7 +29,7 @@ carburator provisioner request \
     create \
     project \
     --provider "$PROVIDER_NAME" \
-    --provisioner "$PROVISIONER_NAME" || exit 120
+    --provisioner "$provisioner" || exit 120
 
 # Example:
 # Extract values from provisioner output and save it to service provider?
