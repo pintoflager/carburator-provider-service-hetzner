@@ -14,10 +14,13 @@ carburator print terminal info "Invoking Hetzner service provider..."
 # REMEMBER: If service provider only supports one provisioner, it should be used
 # instead of "$PROVISIONER_NAME" variable.
 
+# Provisioner defined with a parent command flag
 provisioner="$PROVISIONER_NAME"
 
+# ...Or take the first package provider has in it's packages list.
+# with service / dns provider we know packages are provisioners.
 if [[ -z $provisioner ]]; then
-    provisioner="$PROVIDER_PROVISIONERS_0_NAME"
+    provisioner="$PROVIDER_PACKAGES_0_NAME"
 fi
 
 

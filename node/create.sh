@@ -2,14 +2,13 @@
 
 carburator print terminal info "Invoking Hetzner service provider..."
 
-###
-# Run the provisioner and hope it succeeds. Provisioner function has
-# retries baked in (if enabled in provisioner.toml).
-#
+# Provisioner defined with a parent command flag
 provisioner="$PROVISIONER_NAME"
 
+# ...Or take the first package provider has in it's packages list.
+# with service / dns provider we know packages are provisioners.
 if [[ -z $provisioner ]]; then
-    provisioner="$PROVIDER_PROVISIONERS_0_NAME"
+    provisioner="$PROVIDER_PACKAGES_0_NAME"
 fi
 
 ###
