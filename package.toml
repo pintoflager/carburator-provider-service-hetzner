@@ -3,6 +3,9 @@ version = "0.1.0"
 collection = "ServiceProvider"
 targets = ["Commander"]
 
+# List of provisioner names this provider supports
+provisioners = ["terraform"]
+
 [[secret]]
 name = "hetzner_cloud_apikey" # primary secret key
 
