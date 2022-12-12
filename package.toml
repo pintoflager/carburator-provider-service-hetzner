@@ -1,9 +1,7 @@
 name = "hetzner"
 version = "0.1.0"
-collection = "service"
-
-targets = ["commander"]
-provisioners = ["terraform"]
+collection = "ServiceProvider"
+targets = ["Commander"]
 
 [[secret]]
 name = "hetzner_cloud_apikey" # primary secret key
