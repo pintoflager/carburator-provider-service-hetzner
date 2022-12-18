@@ -62,7 +62,7 @@ provisioner_net="$PROJECT_PATH/provisioners/$provisioner/providers/$PROVIDER_NAM
 # How many nodes are we dealing with
 len=$(carburator get json nodes array --path "$provider_node/.exec.json" | wc -l)
 
-# Hetzner has 2 network zones, europe and yankie east
+# Hetzner has 3 network zones, europe and yankie east/west
 declare -a eu_nodes; declare -a us_east_nodes; declare -a us_west_nodes;
 
 for (( i=0; i<len; i++ )); do

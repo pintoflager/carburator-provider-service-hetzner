@@ -1,0 +1,48 @@
+# TODO: this is just a reminder!
+# service provider can most likely live without CLI.
+
+name = "Hetzner service provider"
+version = "0.1"
+author = "pintoflager"
+about = "Commands to invoke service provider scripts."
+
+[subcommands.node]
+about = "Commands for managing server nodes" 
+subcommand_required = true
+
+[subcommands.node.subcommands.create]
+about = "Create new server nodes"
+arg_required_else_help = true
+
+[subcommands.node.subcommands.create.args.name]
+help = "Node name within the group"
+forbid_empty_values = true
+
+[subcommands.node.subcommands.create.args.group]
+default_value = "worker"
+hide_default_value = true
+short = "g"
+long = "group"
+help = "Node group name"
+
+[subcommands.node.subcommands.create.args.location]
+default_value = "local"
+hide_default_value = true
+short = "l"
+long = "location"
+help = "Node location"
+
+[subcommands.node.subcommands.destroy]
+about = "Destroy existing server node"
+arg_required_else_help = true
+
+[subcommands.node.subcommands.destroy.args.name]
+help = "Node name within the group"
+forbid_empty_values = true
+
+[subcommands.node.subcommands.destroy.args.group]
+default_value = "worker"
+hide_default_value = true
+short = "g"
+long = "group"
+help = "Node group name"
