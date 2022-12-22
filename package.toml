@@ -1,15 +1,8 @@
 name = "hetzner"
 version = "0.1.0"
 collection = "ServiceProvider"
-targets = ["Commander"]
+project_roles = ["Commander"]
 
 # List of provisioner names this provider supports
 provisioners = ["terraform"]
-
-[[secret]]
-name = "hetzner_cloud_apikey" # primary secret key
-
-[[secret.line]]
-key = "hetzner_cloud_apikey"
-value = "prompt!(secret)" # Idea is to use prompt mods here; secret, password, text...
-prompt = "Hetzner cloud API key"
+secret_name = "hetzner_cloud_apikey"
