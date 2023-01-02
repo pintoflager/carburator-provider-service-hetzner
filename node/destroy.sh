@@ -126,12 +126,14 @@ fi
 
 # Invoke the provisioner
 carburator-commander provisioner request \
+    service-provider \
     destroy \
     network \
     --provider "$PROVIDER_NAME" \
     --provisioner "$provisioner" || exit 120
 
 carburator-commander provisioner request \
+    service-provider \
     destroy \
     node \
     --provider "$PROVIDER_NAME" \

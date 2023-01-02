@@ -6,7 +6,8 @@ carburator fn paint green "Invoking Hetzner service provider..."
 # Run the provisioner and hope it succeeds. Provisioner function has
 # retries baked in (if enabled in provisioner.toml).
 #
-carburator provisioner request \
+carburator-commander provisioner request \
+    service-provider \
     destroy \
     project \
     --provider "$PROVIDER_NAME" \

@@ -45,7 +45,8 @@ if [[ -e $provider_node/.exec.toml ]]; then
     cp -f "$provider_node/.exec.toml" "$provisioner_node/.provider.exec.toml"
 fi
 
-carburator provisioner request \
+carburator-commander provisioner request \
+    service-provider \
     create \
     node \
     --provider "$PROVIDER_NAME" \
@@ -138,7 +139,8 @@ else
 fi
 
 # Invoke the provisioner
-carburator provisioner request \
+carburator-commander provisioner request \
+    service-provider \
     create \
     network \
     --provider "$PROVIDER_NAME" \
