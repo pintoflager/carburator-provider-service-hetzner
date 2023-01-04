@@ -1,7 +1,7 @@
 name = "hetzner"
 version = "0.1.0"
 collection = "ServiceProvider"
-project_roles = ["Commander"]
+platforms = ["Commander"]
 
 # List of provisioner names this provider supports
 provisioners = ["terraform"]
