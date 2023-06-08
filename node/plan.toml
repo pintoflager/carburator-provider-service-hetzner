@@ -1,0 +1,42 @@
+default = "cx11"
+
+[[plan]]
+name = "cx11"
+description = "vCPU: 1, RAM: 2 GB, SSD: 20 GB"
+filter = ["Location=nbg1", "Location=fsn1", "Location=hel1"]
+
+[[plan]]
+name = "cpx11"
+description = "vCPU: 2, RAM: 2 GB, SSD: 40 GB"
+
+[[plan]]
+name = "cx21"
+description = "vCPU: 2, RAM: 4 GB, SSD: 40 GB"
+filter = ["Location=nbg1", "Location=fsn1", "Location=hel1"]
+
+[[plan]]
+name = "cpx21"
+description = "vCPU: 3, RAM: 4 GB, SSD: 80 GB"
+
+[[plan]]
+name = "cx31"
+description = "vCPU: 2, RAM: 8 GB, SSD: 80 GB"
+filter = ["Location=nbg1", "Location=fsn1", "Location=hel1"]
+
+[[plan]]
+name = "cpx31"
+description = "vCPU: 4, RAM: 8 GB, SSD: 160 GB"
+
+[[plan]]
+name = "cx41"
+description = "vCPU: 4, RAM: 16 GB, SSD: 160 GB"
+filter = ["Location=nbg1", "Location=fsn1", "Location=hel1"]
+
+[[plan]]
+name = "cpx41"
+description = "vCPU: 8, RAM: 16 GB, SSD: 240 GB"
+
+[[plan]]
+name = "cx51"
+description = "vCPU: 8, RAM: 32 GB, SSD: 240 GB"
+filter = ["Location=nbg1", "Location=fsn1", "Location=hel1"]

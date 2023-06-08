@@ -1,0 +1,65 @@
+# TODO: this is just a reminder!
+# service provider can most likely live without CLI.
+help = "Commands to invoke Hetzner service provider scripts."
+
+[command.project_create]
+help = "Test project init through dynamic CLI"
+
+# Optional, checks from package and node already.
+platform = ["Client"]
+executor = "project/create"
+
+[command.project_create.args.provider]
+help = "Provider name"
+long = "provider"
+short = "p"
+value_is = "String" # Boolean | String | Array
+required = true
+to_env_key = "SERVICE_PROVIDER_NAME"
+
+[command.project_create.args.provisioner]
+help = "Provisioner name"
+long = "provisioner"
+short = "f"
+value_is = "String" # Boolean | String | Array
+required = true
+to_env_key = "PROVISIONER_NAME"
+
+########################################################
+
+[command.echo]
+help = "Test host command, jinja2 templated command string."
+platform = ["Client"]
+command = "echo {{ text }}"
+
+[command.echo.args.text]
+help = "Print text and shit"
+value_is = "String" # Boolean | String | Array
+arg_index = 1
+required = true
+
+########################################################
+
+[command.ls]
+help = "Test ls command. Templated command where flags render conditionally."
+platform = ["Client"]
+command = "ls {% if long %}-l{% endif %} {% if all %}-a{% endif %} {{ path }}"
+
+[command.ls.args.path]
+help = "Path to directory root where command should be executed"
+value_is = "String" # Boolean | String | Array
+arg_index = 1
+required = true
+
+[command.ls.args.long]
+long = "long"
+short = "l"
+value_is = "Boolean" # Boolean | String | Array
+required = false
+
+[command.ls.args.all]
+long = "all"
+short = "a"
+value_is = "Boolean" # Boolean | String | Array
+required = false
+
