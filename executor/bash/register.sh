@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
 # ATTENTION: Supports only client nodes, pointless to read role from $1
+if [[ $1 == "server" ]]; then
+    carburator print terminal error \
+        "Service providers register only on client nodes. Package configuration error."
+    exit 120
+fi
 
 # We know we have secrets but this is a good practice anyways.
 if carburator has json service_provider.secrets -p '.exec.json'; then
