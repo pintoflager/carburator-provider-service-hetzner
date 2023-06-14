@@ -1,11 +1,6 @@
 default = "debian"
 
 [[os]]
-name = "debian-10"
-description = "Linux, Debian 10, Buster"
-default = false
-
-[[os]]
 name = "debian-11"
 description = "Linux, Debian 11, Bullseye"
 default = true
