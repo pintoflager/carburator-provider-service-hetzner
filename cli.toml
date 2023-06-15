@@ -4,10 +4,10 @@ help = "Commands to invoke Hetzner service provider scripts."
 
 [command.project_create]
 help = "Test project init through dynamic CLI"
-
-# Optional, checks from package and node already.
 platform = ["Client"]
-executor = "project/create"
+
+[command.project_create.executor]
+tail = "project/create"
 
 [command.project_create.args.provider]
 help = "Provider name"
