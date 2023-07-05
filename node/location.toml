@@ -1,26 +1,21 @@
-default = "nuremberg"
+default = "nbg1"
 
 [[location]]
 name = "nbg1"
 description = "Nuremberg: Germany, France, Spain, Italy, Netherlands, Switzerland, UK..."
-default = true
 
 [[location]]
 name = "fsn1"
 description = "Falkenstein: Germany, France, Spain, Italy, Netherlands, Switzerland, UK..."
-default = false
 
 [[location]]
 name = "hel1"
 description = "Helsinki: Finland, Sweden, Norway..."
-default = false
 
 [[location]]
 name = "ash"
 description = "Ashburn: US/Miami, Canada/Toronto..."
-default = false
 
 [[location]]
 name = "hil"
 description = "Hillsboro: US/Washington, US/Seatle, Canada/Vancouver..."
-default = false
