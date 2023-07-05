@@ -17,18 +17,18 @@ fi
 # provisioner.
 #
 nodes=$(carburator get json nodes array-raw -p .exec.json)
-tag=$(carburator get env FLOATING_IP_NAME -p .exec.env)
-ipv4=$(carburator get env FLOATING_IP_V4 -p .exec.env)
-ipv6=$(carburator get env FLOATING_IP_V6 -p .exec.env)
+tag=$(carburator get toml floating_ip_name string -p .exec.toml)
+ipv4=$(carburator get toml floating_ip_v4 boolean -p .exec.toml)
+ipv6=$(carburator get toml floating_ip_v4 boolean -p .exec.toml)
 
 carburator provisioner request \
     service-provider \
     create \
     floating_ip \
-    --provider "$provider" \
-    --provisioner "$provisioner" \
-    --key-val "ip_name=$tag" \
-    --key-val "ip_v4=$ipv4" \
-    --key-val "ip_v6=$ipv6" \
-    --json-kv "nodes=$nodes"|| exit 120
+        --provider "$provider" \
+        --provisioner "$provisioner" \
+        --key-val "ip_name=$tag" \
+        --key-val "ip_v4=$ipv4" \
+        --key-val "ip_v6=$ipv6" \
+        --json-kv "nodes=$nodes"|| exit 120
 
