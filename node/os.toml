@@ -1,4 +1,8 @@
-default = "debian-11"
+default = "debian-12"
+
+[[os]]
+name = "debian-12"
+description = "Linux, Debian 12, Bookworm"
 
 [[os]]
 name = "debian-11"
