@@ -2,6 +2,18 @@
 
 carburator print terminal info "Invoking Hetzner service provider..."
 
+###
+# Executes on server node.
+#
+if [[ $1 == "server" ]]; then
+    carburator print terminal info \
+        "Project create can only be invoked from client nodes."
+    exit 0
+fi
+
+###
+# Executes on client node.
+#
 # Provisioner defined with a parent command flag
 provisioner="$PROVISIONER_NAME"
 
@@ -17,7 +29,7 @@ fi
 root_pubkey=$(carburator get env HETZNER_ROOT_PUBLIC_SSKEY -s hetzner -p hetzner.env)
 
 if [[ -z $root_pubkey ]]; then
-    root_pubkey=$(carburator get env REGISTER_USER_PUBLIC_SSKEY_0 \
+    root_pubkey=$(carburator get env REGISTER_ROOT_PUBLIC_SSKEY_0 \
         -p .exec.env) || exit 120
 
     carburator put env HETZNER_ROOT_PUBLIC_SSKEY "$root_pubkey" \

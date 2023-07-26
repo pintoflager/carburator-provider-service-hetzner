@@ -2,6 +2,19 @@
 
 carburator print terminal info "Invoking Hetzner service provider..."
 
+###
+# Executes on server node.
+#
+if [[ $1 == "server" ]]; then
+    carburator print terminal info \
+        "Floating IP create can only be invoked from client nodes."
+    exit 0
+fi
+
+###
+# Executes on client node.
+#
+
 # Provisioner defined with a parent command flag
 provisioner="$PROVISIONER_NAME"
 provider="$SERVICE_PROVIDER_NAME"

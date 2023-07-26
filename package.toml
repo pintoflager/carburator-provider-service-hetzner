@@ -1,7 +1,7 @@
 name = "hetzner"
 version = "0.1.0"
 collection = "ServiceProvider"
-platforms = ["Client"]
+platforms = ["Client", "Server"]
 
 # List of provisioner names this provider supports
 provisioners = ["terraform"]

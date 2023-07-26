@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+###
+# Executes on server node.
+#
+if [[ $1 == "server" ]]; then
+    carburator print terminal info \
+        "Volume destroy can only be invoked from client nodes."
+    exit 0
+fi
+
+###
+# Executes on client node.
+#
+
 # local app="$1" volumes="$2" provisioner_sh;
 # local volinst_dir="$PWD/$app/volume_instances"
 

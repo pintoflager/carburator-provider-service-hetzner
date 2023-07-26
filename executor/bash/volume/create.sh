@@ -1,5 +1,19 @@
 #!/usr/bin/env bash
 
+###
+# Executes on server node.
+#
+if [[ $1 == "server" ]]; then
+    carburator print terminal info \
+        "Volume create can only be invoked from client nodes."
+    exit 0
+fi
+
+###
+# Executes on client node.
+#
+
+
 # local app="$1" vol_json="$PWD/$1/volume.json" provisioner_sh;
 # local volinst_dir="$PWD/$app/volume_instances"
 
