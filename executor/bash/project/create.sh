@@ -15,13 +15,8 @@ fi
 # Executes on client node.
 #
 # Provisioner defined with a parent command flag
-provisioner="$PROVISIONER_NAME"
-
 # ...Or take the first package provider has in it's packages list.
-# with service / dns provider we know packages are provisioners.
-if [[ -z $provisioner ]]; then
-    provisioner="$SERVICE_PROVIDER_PACKAGES_0_NAME"
-fi
+provisioner="${PROVISIONER_NAME:-$SERVICE_PROVIDER_PACKAGES_0_NAME}"
 
 # Hetzner recreates all nodes where root key changes. This will most likely
 # destroy your complete environment so let's not do that and instead lock in
@@ -29,7 +24,7 @@ fi
 root_pubkey=$(carburator get env HETZNER_ROOT_PUBLIC_SSKEY -s hetzner -p hetzner.env)
 
 if [[ -z $root_pubkey ]]; then
-    root_pubkey=$(carburator get env REGISTER_ROOT_PUBLIC_SSKEY_0 \
+    root_pubkey=$(carburator get env REGISTER_ROOT_PUBLIC_SSHKEY_0 \
         -p .exec.env) || exit 120
 
     carburator put env HETZNER_ROOT_PUBLIC_SSKEY "$root_pubkey" \

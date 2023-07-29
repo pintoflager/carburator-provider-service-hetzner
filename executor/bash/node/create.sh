@@ -15,14 +15,9 @@ fi
 # Executes on client node.
 #
 # Provisioner defined with a parent command flag
-provisioner="$PROVISIONER_NAME"
-provider="$SERVICE_PROVIDER_NAME"
-
 # ...Or take the first package provider has in it's packages list.
-# with service / dns provider we know packages are provisioners.
-if [[ -z $provisioner ]]; then
-    provisioner="$SERVICE_PROVIDER_PACKAGES_0_NAME"
-fi
+provisioner="${PROVISIONER_NAME:-$SERVICE_PROVIDER_PACKAGES_0_NAME}"
+provider="$SERVICE_PROVIDER_NAME"
 
 ###
 # Service provider has information about the nodes we have to pass along to the
