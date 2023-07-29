@@ -13,7 +13,7 @@ fi
 # Register on client node.
 #
 # User holding the secret, provider package user or root.
-user="${PROVIDER_USER_PUBLIC_IDENTIFIER:-root}"
+user="${PACKAGE_USER_PUBLIC_IDENTIFIER:-root}"
 
 # We know we have secrets but this is a good practice anyways.
 if carburator has json service_provider.secrets -p .exec.json; then
