@@ -21,7 +21,7 @@ if carburator has json service_provider.secrets -p .exec.json; then
     # Read secrets from json exec environment line by line
     while read -r secret; do
         # Prompt secret if it doesn't exist yet.
-        if ! carburator has secret "$secret" --user root; then
+        if ! carburator has secret "$secret" --user "$user"; then
             # ATTENTION: We know only one secret is present. Otherwise
             # prompt texts should be adjusted accordingly.
             carburator print terminal warn \
