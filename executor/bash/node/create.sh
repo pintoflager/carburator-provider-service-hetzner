@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-carburator print terminal info "Invoking Hetzner service provider..."
+carburator log info "Invoking Hetzner service provider..."
 
 ###
 # Executes on server node.
 #
 if [[ $1 == "server" ]]; then
-    carburator print terminal info \
+    carburator log info \
         "Node create can only be invoked from client nodes."
     exit 0
 fi
@@ -48,7 +48,7 @@ for (( i=0; i<len; i++ )); do
         # Say something.
         node=$(carburator get json "nodes.$i.hostname" string -p .exec.json)
         if [[ -n $node ]]; then
-            carburator print terminal info "Setting initilization delay for $node"
+            carburator log info "Setting initilization delay for $node"
         fi
 
         # Alter node toml to have the available time
@@ -63,7 +63,7 @@ done
 ###
 # Private networking
 #
-carburator print terminal info 'Creating private networks for Hetzner nodes...'
+carburator log info 'Creating private networks for Hetzner nodes...'
 
 carburator provisioner request \
     service-provider \
