@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+carburator log info "Invoking Hetzner service provider..."
+
 ###
 # Executes on server node.
 #
@@ -13,15 +15,42 @@ fi
 # Executes on client node.
 #
 
+# Provisioner defined with a parent command flag
+# ...Or take the first package provider has in it's packages list.
+provisioner="${PROVISIONER_NAME:-$SERVICE_PROVIDER_PACKAGES_0_NAME}"
+provider="$SERVICE_PROVIDER_NAME"
 
-# local app="$1" vol_json="$PWD/$1/volume.json" provisioner_sh;
-# local volinst_dir="$PWD/$app/volume_instances"
+###
+# Service provider has information about the proxy nodes we have to pass along to the
+# provisioner.
+#
+nodes=$(carburator get json nodes array-raw -p .exec.json)
+tag=$(carburator get toml volume_name string -p .exec.toml)
 
-# if [[ ! -d $volinst_dir || ! $(ls -A "$volinst_dir") ]]; then return; fi
+size=$(carburator get env HETZNER_VOL_SIZE -s hetzner -p hetzner.env)
 
-# # Execute provisioner logic of the selected program.
-# provisioner_sh=$(get-resource-provisioner "$app")
-# "$provisioner_sh" provisioner-volumes "$app"
+if [[ -z $size ]]; then
+    carburator put env HETZNER_VOL_SIZE "10" \
+        -s hetzner \
+        -p hetzner.env || exit 120
+fi
 
-# provider-response-valid "$vol_json" || provision-volume "$@"
+filesystem=$(carburator get env HETZNER_VOL_FILESYSTEM -s hetzner -p hetzner.env)
+
+if [[ -z $filesystem ]]; then
+    carburator put env HETZNER_VOL_FILESYSTEM "ext4" \
+        -s hetzner \
+        -p hetzner.env || exit 120
+fi
+
+carburator provisioner request \
+    service-provider \
+    create \
+    volume \
+        --provider "$provider" \
+        --provisioner "$provisioner" \
+        --key-val "volume_name=$tag" \
+        --key-val "volume_size=$size" \
+        --key-val "volume_filesystem=$filesystem" \
+        --json-kv "nodes=$nodes"|| exit 120
 
