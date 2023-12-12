@@ -26,19 +26,21 @@ provider="$SERVICE_PROVIDER_NAME"
 #
 nodes=$(carburator get json nodes array-raw -p .exec.json)
 tag=$(carburator get toml volume_name string -p .exec.toml)
-
 size=$(carburator get env HETZNER_VOL_SIZE -s hetzner -p hetzner.env)
+filesystem=$(carburator get env HETZNER_VOL_FILESYSTEM -s hetzner -p hetzner.env)
 
 if [[ -z $size ]]; then
-    carburator put env HETZNER_VOL_SIZE "10" \
+    size=10
+
+    carburator put env HETZNER_VOL_SIZE "$size" \
         -s hetzner \
         -p hetzner.env || exit 120
 fi
 
-filesystem=$(carburator get env HETZNER_VOL_FILESYSTEM -s hetzner -p hetzner.env)
-
 if [[ -z $filesystem ]]; then
-    carburator put env HETZNER_VOL_FILESYSTEM "ext4" \
+    filesystem="ext4"
+
+    carburator put env HETZNER_VOL_FILESYSTEM "$filesystem" \
         -s hetzner \
         -p hetzner.env || exit 120
 fi
