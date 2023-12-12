@@ -7,7 +7,7 @@ carburator log info "Invoking Hetzner service provider..."
 #
 if [[ $1 == "server" ]]; then
     carburator log info \
-        "Volume create can only be invoked from client nodes."
+        "Volume create can only be invoked from client volumes."
     exit 0
 fi
 
@@ -21,11 +21,10 @@ provisioner="${PROVISIONER_NAME:-$SERVICE_PROVIDER_PACKAGES_0_NAME}"
 provider="$SERVICE_PROVIDER_NAME"
 
 ###
-# Service provider has information about the proxy nodes we have to pass along to the
+# Service provider has information about the proxy volumes we have to pass along to the
 # provisioner.
 #
-nodes=$(carburator get json nodes array-raw -p .exec.json)
-tag=$(carburator get toml volume_name string -p .exec.toml)
+volumes=$(carburator get json volumes array-raw -p .exec.json)
 
 carburator provisioner request \
     service-provider \
@@ -33,6 +32,5 @@ carburator provisioner request \
     volume \
         --provider "$provider" \
         --provisioner "$provisioner" \
-        --key-val "volume_name=$tag" \
-        --json-kv "nodes=$nodes"|| exit 120
+        --json-kv "volumes=$volumes"|| exit 120
 

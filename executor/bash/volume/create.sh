@@ -7,7 +7,7 @@ carburator log info "Invoking Hetzner service provider..."
 #
 if [[ $1 == "server" ]]; then
     carburator log info \
-        "Volume create can only be invoked from client nodes."
+        "Volume create can only be invoked from client volumes."
     exit 0
 fi
 
@@ -21,11 +21,13 @@ provisioner="${PROVISIONER_NAME:-$SERVICE_PROVIDER_PACKAGES_0_NAME}"
 provider="$SERVICE_PROVIDER_NAME"
 
 ###
-# Service provider has information about the proxy nodes we have to pass along to the
+# Service provider has information about the proxy volumes we have to pass along to the
 # provisioner.
 #
-nodes=$(carburator get json nodes array-raw -p .exec.json)
-tag=$(carburator get toml volume_name string -p .exec.toml)
+volumes=$(carburator get json volumes array-raw -p .exec.json)
+
+# Binary doesn't know shit about available volume sizes or filesystems.
+# Set 'global' preference for hetzner which applies if volume size is empty.
 size=$(carburator get env HETZNER_VOL_SIZE -s hetzner -p hetzner.env)
 filesystem=$(carburator get env HETZNER_VOL_FILESYSTEM -s hetzner -p hetzner.env)
 
@@ -51,8 +53,7 @@ carburator provisioner request \
     volume \
         --provider "$provider" \
         --provisioner "$provisioner" \
-        --key-val "volume_name=$tag" \
-        --key-val "volume_size=$size" \
-        --key-val "volume_filesystem=$filesystem" \
-        --json-kv "nodes=$nodes"|| exit 120
+        --key-val "volume_default_size=$size" \
+        --key-val "volume_default_filesystem=$filesystem" \
+        --json-kv "volumes=$volumes"|| exit 120
 
